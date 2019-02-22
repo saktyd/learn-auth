@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const jwv = require('jsonwebtoken')
 
 module.exports = {
   encryptPassword: async plainPassword => {
