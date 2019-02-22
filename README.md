@@ -1,6 +1,6 @@
 # Learn Authentication
 
-Learn Aut
+Learn Auth
 
 | Endpoint    | Method | Description                        |
 | ----------- | ------ | ---------------------------------- |
