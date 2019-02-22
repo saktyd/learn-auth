@@ -40,8 +40,14 @@ module.exports = {
   },
 
   login: async (req, res) => {
+    const user = {
+      email: req.body.email,
+      password: req.body.password
+    }
+
     res.send({
-      message: 'Login'
+      message: 'Login',
+      user: user
     })
   },
 
