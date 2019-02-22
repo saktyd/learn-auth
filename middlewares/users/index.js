@@ -6,16 +6,27 @@ mongoose.connect(`${process.env.URL}/${process.env.DB_NAME}`, {
   useNewUrlParser: true
 })
 
-const Users = mongoose.model('User', {
+const User = mongoose.model('User', {
   name: String,
   age: Number,
   email: String
 })
+
 module.exports = {
   register: async (req, res) => {
-    res.send({
-      message: 'Register'
-    })
+    if (req.body.name) {
+      const newUser = new User({
+        name: req.body.name,
+        age: req.body.age,
+        email: req.body.email
+      })
+
+      await newUser.save()
+      res.send({
+        message: 'Created new user',
+        newUser: newUser
+      })
+    }
   },
 
   login: async (req, res) => {
@@ -26,7 +37,8 @@ module.exports = {
 
   getAllUsers: async (req, res) => {
     res.send({
-      message: 'Get all users'
+      message: 'Get all users',
+      users: await User.find()
     })
   },
 
