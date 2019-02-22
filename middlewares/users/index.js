@@ -48,7 +48,7 @@ module.exports = {
   getAllUsers: async (req, res) => {
     res.send({
       message: 'Get all users',
-      users: await User.find()
+      users: await User.find({}, { salt: 0, password: 0 })
     })
   },
 
