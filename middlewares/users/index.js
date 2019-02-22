@@ -1,6 +1,7 @@
 // MONGOOSE
 require('dotenv').config()
 const mongoose = require('mongoose')
+const helpers = require('../../helpers')
 
 mongoose.connect(`${process.env.URL}/${process.env.DB_NAME}`, {
   useNewUrlParser: true
@@ -9,22 +10,31 @@ mongoose.connect(`${process.env.URL}/${process.env.DB_NAME}`, {
 const User = mongoose.model('User', {
   name: String,
   age: Number,
-  email: String
+  email: String,
+  salt: String,
+  password: String
 })
 
 module.exports = {
   register: async (req, res) => {
+    const { salt, hashedPassword } = await helpers.encryptPassword(
+      req.body.password
+    )
+
     if (req.body.name) {
       const newUser = new User({
         name: req.body.name,
         age: req.body.age,
-        email: req.body.email
+        email: req.body.email,
+        salt: salt,
+        password: hashedPassword
       })
 
-      await newUser.save()
+      const result = await newUser.save()
       res.send({
-        message: 'Created new user',
-        newUser: newUser
+        message: 'Register',
+        newUser: newUser,
+        result: result
       })
     }
   },
